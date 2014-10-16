@@ -1,2 +1,1 @@
-fer
-===
+Stvari za faks...
