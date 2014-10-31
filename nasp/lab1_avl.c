@@ -74,6 +74,11 @@ int get_size(queue* q)
 	return q->ptr - q->top;
 }
 
+tree* init_tree()
+{
+	return 0;
+}
+
 tree* create_tree(int root_value)
 {
 	tree* t = (tree*) malloc(sizeof(tree));
@@ -85,6 +90,11 @@ tree* create_tree(int root_value)
 
 void add_node(tree* t, int value)
 {
+	if (t == 0) {
+		// root
+		t = create_tree(value);
+	}
+	
 	if (value > t->value) {
 		if (!t->r) {
 			t->r = create_tree(value);
@@ -304,8 +314,30 @@ void print_tree_bfs(tree* t)
 	printf("\n");
 }	
 	
-int main()
+int main(int argc, char* argv[])
 {
+	FILE* fh;
+	tree* t = init_tree();
+	int temp;
+	if (argc < 2) {
+		printf("Usage: %s filename\n");
+		return 0;
+	}
+	
+	fh = fopen(argv[1], "r");
+	if (fh == 0) {
+		printf("Could not open file %s\n", argv[1]);
+		return -1;
+	}
+	
+	fscanf(fh, " %d", &temp);
+	while (feof(fh)) {
+		add_node(t, temp);
+		fscanf(fh, " %d", &temp);
+	}
+	
+	fclose(fh);
+	
 	tree* test = create_tree(8);
 	add_node(test, 5);
 	add_node(test, 2);
@@ -358,6 +390,7 @@ int main()
 	preorder(test);
 	printf("\n");
 	*/
+	
 	return 0;
 }
 
