@@ -338,6 +338,20 @@ int main(int argc, char* argv[])
 	
 	fclose(fh);
 	
+	char op;
+	int value;
+	fscanf(stdin, "%c%d", &op, &value);
+	while (op != 'q') {
+		if (op == 'a') {
+			// add node
+		} else if (op == 'r') {
+			// remove node
+		} else {
+			break;
+		}
+		fscanf(stdin, "%c%d", &op, &value);
+	}
+	/*
 	tree* test = create_tree(8);
 	add_node(test, 5);
 	add_node(test, 2);
