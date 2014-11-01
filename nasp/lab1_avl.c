@@ -87,27 +87,75 @@ tree* create_tree(int root_value)
 	t->r = 0;
 	return t;
 }
-
+	
 void add_node(tree* t, int value)
 {
 	if (t == 0) {
 		// root
 		t = create_tree(value);
-	}
-	
-	if (value > t->value) {
-		if (!t->r) {
-			t->r = create_tree(value);
-		} else {
-			add_node(t->r, value);
-		}
 	} else {
-		if (!t->l) {
-			t->l = create_tree(value);
+		if (value > t->value) {
+			if (!t->r) {
+				t->r = create_tree(value);
+			} else {
+				add_node(t->r, value);
+			}
 		} else {
-			add_node(t->l, value);
+			if (!t->l) {
+				t->l = create_tree(value);
+			} else {
+				add_node(t->l, value);
+			}
 		}
 	}
+}
+
+void rebalance(tree* t) 
+{
+	int bf = balance_factor(t);	
+
+	if (bf == 2) {
+		if (balance_factor(t->r) == -1) {
+			rotate_right(t->r);
+		}
+		rotate_left(t);
+	} else if (bf == -2) {
+		if (balance_factor(t->l) == 1) {
+			rotate_left(t->l);
+		}
+		rotate_right(t);
+	}
+}	
+
+void avl_add_node(tree* t, int value)
+{
+	if (t == 0) {
+		t = create_node(value);
+	} else {
+		if (value > t->value) {
+			if (!t->r) {
+				t->r = create_tree(value);
+			} else {
+				avl_add_node(t->r, value);
+			}
+		} else {
+			if (!t->l) {
+				t->l = create_tree(value);
+			} else {
+				add_node(t->l, value);
+			}
+		}
+	}	
+	rebalance(t);
+}
+
+void avl_rm_n(tree* cur, tree* prev, int value, tree* whole)
+{
+	
+
+void avl_remove_node(tree* t, int value)
+{
+	avl_rm_n(t, t, value, t);
 }
 
 tree* find_closest_l(tree* t)
@@ -117,7 +165,7 @@ tree* find_closest_l(tree* t)
 
 tree* get_parent(tree* cur, tree* prev, int value)
 {
-	if (!cur) {
+	if (!cur || (cur == prev && cur->value == value)) {
 		return 0;
 	} else if (cur->value != value) {
 		prev = get_parent(cur->l, cur, value);
@@ -126,6 +174,40 @@ tree* get_parent(tree* cur, tree* prev, int value)
 		}
 	}
 	return prev;
+}
+
+void rotate_left(tree* t)
+{
+	tree* p = get_parent(t);
+	tree* temp = t->r;
+
+	if (p) {
+		if (p->value > t->value) {
+			p->l = t->r;
+		} else {
+			p->r = t->r;
+		}
+	}
+	
+	t->r = t->r->l;
+	temp->l = t;
+}
+
+void rotate_right(tree* t)
+{
+	tree* p = get_parent(t);
+	tree* temp = t->l;
+
+	if (p) {
+		if (p->value > t->value) {
+			p->l = t->r;
+		} else {
+			p->r = t->r;
+		}
+	}
+	
+	t->l = t->l->r;
+	temp->r = t;
 }
 
 void rm_n(tree* prev, tree* cur, int value, tree* whole)
@@ -202,60 +284,6 @@ int depth(tree* t, tree* node)
 int balance_factor(tree* t)
 {
 	return height(t->r) - height(t->l);
-}
-
-tree* rotate_left(tree* root)
-{
-	tree* nroot = root->r;
-	root->r = root->r->l;
-	nroot->l = root;
-	return nroot;
-}
-		
-tree* rotate_right(tree* root)
-{
-	tree* nroot = root->l;
-	root->l = root->l->r;
-	nroot->r = root;
-	return nroot;
-}
-
-void rebalance(tree* avl_t, tree* parent, int value)
-{
-	int bf = balance_factor(avl_t);
-	if (abs(bf) > 1) {
-		if (bf == -2) {
-			tree* p = avl_t->l;
-			if (balance_factor(p) == 1) {
-				avl_t->l = rotate_right(p);
-			}
-			tree* nroot = rotate_left(avl_t);
-			if (nroot->value < parent->value) {
-				parent->l = nroot;
-			} else {
-				parent->r = nroot;
-			}
-		} else {
-			tree* p = avl_t->r;
-			if (balance_factor(p) == -1) {
-				avl_t->r = rotate_left(p);
-			}
-			tree* nroot = rotate_right(avl_t);
-			if (nroot->value < parent->value) {
-				parent->l = nroot;
-			} else {
-				parent->r = nroot;
-			}
-		}
-	} else if (avl_t->value != value) {
-		rebalance((value < avl_t->value ? avl_t->l : avl_t->r), avl_t, value);
-	}
-	return;
-}		
-
-tree* avl_add_node(tree* avl_t, int value)
-{
-	add_node(avl_t, value);
 }
 
 void print_node_bfs(tree* t, int node_n, int tree_height)
