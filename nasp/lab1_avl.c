@@ -88,74 +88,26 @@ tree* create_tree(int root_value)
 	return t;
 }
 	
-void add_node(tree* t, int value)
+void add_node(tree** t, int value)
 {
-	if (t == 0) {
+	if (*t == 0) {
 		// root
-		t = create_tree(value);
+		*t = create_tree(value);
 	} else {
-		if (value > t->value) {
-			if (!t->r) {
-				t->r = create_tree(value);
+		if (value > (*t)->value) {
+			if (!(*t)->r) {
+				(*t)->r = create_tree(value);
 			} else {
-				add_node(t->r, value);
+				add_node(&((*t)->r), value);
 			}
 		} else {
-			if (!t->l) {
-				t->l = create_tree(value);
+			if (!(*t)->l) {
+				(*t)->l = create_tree(value);
 			} else {
-				add_node(t->l, value);
+				add_node(&((*t)->l), value);
 			}
 		}
 	}
-}
-
-void rebalance(tree* t) 
-{
-	int bf = balance_factor(t);	
-
-	if (bf == 2) {
-		if (balance_factor(t->r) == -1) {
-			rotate_right(t->r);
-		}
-		rotate_left(t);
-	} else if (bf == -2) {
-		if (balance_factor(t->l) == 1) {
-			rotate_left(t->l);
-		}
-		rotate_right(t);
-	}
-}	
-
-void avl_add_node(tree* t, int value)
-{
-	if (t == 0) {
-		t = create_node(value);
-	} else {
-		if (value > t->value) {
-			if (!t->r) {
-				t->r = create_tree(value);
-			} else {
-				avl_add_node(t->r, value);
-			}
-		} else {
-			if (!t->l) {
-				t->l = create_tree(value);
-			} else {
-				add_node(t->l, value);
-			}
-		}
-	}	
-	rebalance(t);
-}
-
-void avl_rm_n(tree* cur, tree* prev, int value, tree* whole)
-{
-	
-
-void avl_remove_node(tree* t, int value)
-{
-	avl_rm_n(t, t, value, t);
 }
 
 tree* find_closest_l(tree* t)
@@ -176,9 +128,9 @@ tree* get_parent(tree* cur, tree* prev, int value)
 	return prev;
 }
 
-void rotate_left(tree* t)
+void rotate_left(tree* t, tree* whole)
 {
-	tree* p = get_parent(t);
+	tree* p = get_parent(whole, whole, t->value);
 	tree* temp = t->r;
 
 	if (p) {
@@ -193,9 +145,9 @@ void rotate_left(tree* t)
 	temp->l = t;
 }
 
-void rotate_right(tree* t)
+void rotate_right(tree* t, tree* whole)
 {
-	tree* p = get_parent(t);
+	tree* p = get_parent(whole, whole, t->value);
 	tree* temp = t->l;
 
 	if (p) {
@@ -208,6 +160,108 @@ void rotate_right(tree* t)
 	
 	t->l = t->l->r;
 	temp->r = t;
+}
+
+int height(tree* t)
+{
+	if (!t->l && !t->r) {
+		return 0;	// leaf
+	} else if (t->l && !t->r) {
+		return 1 + height(t->l);
+	} else if (!t->l && t->r) {
+		return 1 + height(t->r);
+	} else {
+		int h_l = height(t->l);
+		int h_r = height(t->r);
+		return 1 + (h_l > h_r ? h_l : h_r);
+	}
+}
+
+int balance_factor(tree* t)
+{
+	return height(t->r) - height(t->l);
+}
+
+void rebalance(tree* t, tree* whole) 
+{
+	int bf = balance_factor(t);	
+
+	if (bf == 2) {
+		if (balance_factor(t->r) == -1) {
+			rotate_right(t->r, whole);
+		}
+		rotate_left(t, whole);
+	} else if (bf == -2) {
+		if (balance_factor(t->l) == 1) {
+			rotate_left(t->l, whole);
+		}
+		rotate_right(t, whole);
+	}
+}	
+
+void avl_add_node_i(tree* t, tree* whole, int value)
+{
+	if (!t) {
+		t = create_tree(value);
+	} else {
+		if (value > t->value) {
+			if (!t->r) {
+				t->r = create_tree(value);
+			} else {
+				avl_add_node_i(t->r, whole, value);
+			}
+		} else {
+			if (!t->l) {
+				t->l = create_tree(value);
+			} else {
+				avl_add_node_i(t->l, whole, value);
+			}
+		}
+	}	
+	rebalance(t, whole);
+}
+
+void avl_add_node(tree* t, int value)
+{
+	avl_add_node_i(t, t, value);
+}
+
+void avl_rm_n(tree* cur, tree* prev, int value, tree* whole)
+{
+	
+	if (cur->value == value) {
+		tree** cur_ptr;
+		cur_ptr = cur->value > prev->value ? &(prev->r) : &(prev->l);
+		if (!cur->l && !cur->r) {
+			// no children
+			*cur_ptr = 0;
+			free(cur);
+		} else if (cur->l && cur->r) {
+			// has both children
+			tree* closest = find_closest_l(cur->l);	// closest in the left subtree
+			tree* sub_parent = get_parent(whole, 0, closest->value);
+			cur->value = closest->value;
+			if (sub_parent->value > closest->value) {
+				sub_parent->l = closest->l;
+			} else {
+				sub_parent->r = closest->l;
+			}
+			free(closest);
+		} else {
+			// has one child
+			*cur_ptr = !cur->l ? cur->r : cur->l;
+			free(cur);
+		}
+	} else {
+		if (cur->l) avl_rm_n(cur, cur->l, value, whole);
+		if (cur->r) avl_rm_n(cur, cur->r, value, whole);
+	}
+	rebalance(prev, whole);
+}
+
+void avl_remove_node(tree* t, int value)
+{
+	avl_rm_n(t, t, value, t);
 }
 
 void rm_n(tree* prev, tree* cur, int value, tree* whole)
@@ -261,30 +315,12 @@ void preorder(tree* t)
 	if (t->r) preorder(t->r);
 }
 
-int height(tree* t)
-{
-	if (!t->l && !t->r) {
-		return 0;	// leaf
-	} else if (t->l && !t->r) {
-		return 1 + height(t->l);
-	} else if (!t->l && t->r) {
-		return 1 + height(t->r);
-	} else {
-		int h_l = height(t->l);
-		int h_r = height(t->r);
-		return 1 + (h_l > h_r ? h_l : h_r);
-	}
-}
 /*
 int depth(tree* t, tree* node)
 {
 	return t->value == node->value ? 0 : node->value < t->value ? 1 + depth(t->l, node) : 1 + depth(t->r, node);
 }
 */
-int balance_factor(tree* t)
-{
-	return height(t->r) - height(t->l);
-}
 
 void print_node_bfs(tree* t, int node_n, int tree_height)
 {
@@ -347,37 +383,49 @@ int main(int argc, char* argv[])
 	FILE* fh;
 	tree* t = init_tree();
 	int temp;
+	int op;
+	int value;
+
 	if (argc < 2) {
-		printf("Usage: %s filename\n");
+		printf("Usage: %s filename\n", argv[0]);
 		return 0;
 	}
+		printf("creating root\n");
 	
 	fh = fopen(argv[1], "r");
 	if (fh == 0) {
 		printf("Could not open file %s\n", argv[1]);
 		return -1;
 	}
-	
+
 	fscanf(fh, " %d", &temp);
-	while (feof(fh)) {
-		add_node(t, temp);
+	while (!feof(fh)) {
+		printf("adding %d\n", temp);
+		add_node(&t, temp);
 		fscanf(fh, " %d", &temp);
 	}
 	
 	fclose(fh);
 	
-	char op;
-	int value;
-	fscanf(stdin, "%c%d", &op, &value);
+	print_tree_bfs(t);
+	fprintf(stdout, "a# - add #, r# - remove #, p - print tree, q - quit\n");
+	
+	fscanf(stdin, " %c %d", &op, &value);
 	while (op != 'q') {
-		if (op == 'a') {
-			// add node
+		printf("input: %c\n", op);
+		if (op == 97) {
+			//scanf(" %d", &value);
+			add_node(&t, value);
 		} else if (op == 'r') {
-			// remove node
-		} else {
-			break;
-		}
-		fscanf(stdin, "%c%d", &op, &value);
+			//scanf(" %d", &value);
+			remove_node(t, value);
+		}else{printf("NISTA\n");}
+		/*inorder(t);
+		printf("\n");
+		preorder(t);
+		printf("\n");*/
+		print_tree_bfs(t);
+		fscanf(stdin, " %c %d", &op, &value);
 	}
 	/*
 	tree* test = create_tree(8);
