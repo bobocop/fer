@@ -238,9 +238,8 @@ void avl_add_node(tree** t, int value)
 	avl_add_node_i(t, t, value);
 }
 
-void avl_rm_n(tree* cur, tree* prev, int value, tree* whole)
+void avl_rm_n(tree* prev, tree* cur, int value, tree* whole)
 {
-	
 	if (cur->value == value) {
 		tree** cur_ptr;
 		cur_ptr = cur->value > prev->value ? &(prev->r) : &(prev->l);
@@ -251,9 +250,9 @@ void avl_rm_n(tree* cur, tree* prev, int value, tree* whole)
 		} else if (cur->l && cur->r) {
 			// has both children
 			tree* closest = find_closest_l(cur->l);	// closest in the left subtree
-			tree* sub_parent = get_parent(whole, 0, closest->value);
+			tree* sub_parent = get_parent(whole, whole, closest->value);
 			cur->value = closest->value;
-			if (sub_parent->value > closest->value) {
+			if (sub_parent->value >= closest->value) {
 				sub_parent->l = closest->l;
 			} else {
 				sub_parent->r = closest->l;
@@ -268,7 +267,7 @@ void avl_rm_n(tree* cur, tree* prev, int value, tree* whole)
 		if (cur->l) avl_rm_n(cur, cur->l, value, whole);
 		if (cur->r) avl_rm_n(cur, cur->r, value, whole);
 	}
-//	rebalance(&prev, &whole);
+	rebalance(&prev, &whole);
 }
 
 void avl_remove_node(tree* t, int value)
@@ -288,9 +287,9 @@ void rm_n(tree* prev, tree* cur, int value, tree* whole)
 		} else if (cur->l && cur->r) {
 			// has both children
 			tree* closest = find_closest_l(cur->l);	// closest in the left subtree
-			tree* sub_parent = get_parent(whole, 0, closest->value);
+			tree* sub_parent = get_parent(whole, whole, closest->value);
 			cur->value = closest->value;
-			if (sub_parent->value > closest->value) {
+			if (sub_parent->value >= closest->value) {
 				sub_parent->l = closest->l;
 			} else {
 				sub_parent->r = closest->l;
@@ -518,4 +517,3 @@ int main(int argc, char* argv[])
 	
 	return 0;
 }
-
