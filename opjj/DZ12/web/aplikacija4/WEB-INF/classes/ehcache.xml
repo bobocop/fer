@@ -1,0 +1,20 @@
+<ehcache updateCheck="false">
+
+	<diskStore path="java.io.tmpdir" />
+
+	<defaultCache maxElementsInMemory="100" eternal="false"
+		statistics="true" timeToIdleSeconds="120" timeToLiveSeconds="120"
+		overflowToDisk="true" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+
+	<cache name="org.hibernate.cache.internal.StandardQueryCache"
+		maxElementsInMemory="5" eternal="false" timeToLiveSeconds="120"
+		overflowToDisk="true" />
+
+	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
+		maxElementsInMemory="5000" eternal="true" overflowToDisk="true" />
+
+	<cache name="hr.fer.zemris.java.tecaj_14.model.BlogEntry" eternal="true"
+		maxElementsInMemory="200" />
+		
+</ehcache>

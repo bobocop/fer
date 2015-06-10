@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="weblib/jsp-api.jar" sourcepath="/home/karlo/Downloads/apache-tomcat-7.0.27-src.zip"/>
+	<classpathentry kind="lib" path="weblib/servlet-api.jar" sourcepath="/home/karlo/Downloads/apache-tomcat-7.0.27-src.zip"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/javax.servlet.jsp.jstl-1.2.1.jar" sourcepath="/home/karlo/Downloads/javax.servlet.jsp.jstl-1.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/javax.servlet.jsp.jstl-api-1.2.1.jar" sourcepath="/home/karlo/Downloads/javax.servlet.jsp.jstl-api-1.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/jcommon-1.0.17.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/jfreechart-1.0.14-swt.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/jfreechart-1.0.14.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija2/WEB-INF/lib/poi-3.8-20120326.jar"/>
+	<classpathentry kind="output" path="web/aplikacija2/WEB-INF/classes"/>
+</classpath>

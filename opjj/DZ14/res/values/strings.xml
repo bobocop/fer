@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Address Book</string>
+    <string name="add">Dodaj</string>
+    <string name="save">Spremi</string>
+    <string name="cancel">Odustani</string>
+    <string name="addActivityLabel">Dodaj kontakt</string>
+    <string name="homeActivityLabel">Kontakti</string>
+    <string name="profileActivityLabel">Profil kontakta</string>
+    <string name="getPic">Odaberi sliku</string>
+    <string name="txtName">Ime i prezime:</string>
+    <string name="txtEmail">E-Mail: </string>
+    <string name="txtPhone">Broj:</string>
+    <string name="txtNote">Biljeska:</string>
+    <string name="txtFB">Facebook profil:</string>
+    <string name="noPic">Slika nije odabrana</string>
+    <string name="picDesc">Slika kontakta</string>
+    <string name="call">Nazovi</string>
+    <string name="fb">Facebook</string>
+    <string name="notEntered">Nije uneseno</string>
+    <string name="yes">Da</string>
+    <string name="no">Ne</string>
+    <string name="deleteContact">Izbrisati kontakt?</string>
+    <string name="ok">OK</string>
+    <string name="noPhone">Telefonski broj mora biti unesen</string>
+    <string name="sendMailWith">Pošalji koristeći:</string>
+    <string name="sms">SMS</string>
+    <string name="messageType">Odaberite akciju:</string>
+    <string name="pickPic">Odaberite sliku:</string>
+    
+</resources>

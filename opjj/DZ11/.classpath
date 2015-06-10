@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="web/aplikacija3/WEB-INF/lib/c3p0-0.9.2-pre2.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija3/WEB-INF/lib/derbyclient.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija3/WEB-INF/lib/javax.servlet.jsp.jstl-1.2.1.jar" sourcepath="/home/karlo/Downloads/javax.servlet.jsp.jstl-1.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="web/aplikacija3/WEB-INF/lib/javax.servlet.jsp.jstl-api-1.2.1.jar" sourcepath="/home/karlo/Downloads/javax.servlet.jsp.jstl-api-1.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="weblib/jsp-api.jar" sourcepath="/home/karlo/Downloads/apache-tomcat-7.0.27-src.zip"/>
+	<classpathentry kind="lib" path="weblib/servlet-api.jar" sourcepath="/home/karlo/Downloads/apache-tomcat-7.0.27-src.zip"/>
+	<classpathentry kind="lib" path="web/aplikacija3/WEB-INF/lib/itextpdf-5.2.1.jar" sourcepath="/home/karlo/Downloads/itextpdf-5.2.1-sources.jar"/>
+	<classpathentry kind="output" path="web/aplikacija3/WEB-INF/classes"/>
+</classpath>

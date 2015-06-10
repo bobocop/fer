@@ -1,0 +1,34 @@
+{
+   "people":[
+      {
+         "person":{
+            "name":"Nikola Kapraljevic",
+            "phone":"0959115614",
+            "email":"nikola@infinum.hr",
+            "image":"image1.jpeg",
+            "note":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id orci in justo consectetur hendrerit. Morbi vitae justo quam. Curabitur egestas, ante in condimentum dictum, lacus massa consequat eros, dapibus mollis nulla velit at tortor. Vivamus tempus varius ipsum. Quisque placerat massa a massa euismod bibendum. Sed ac tellus massa.",
+            "facebook_profile":"https://www.facebook.com/nikola.kapraljevic"
+         }
+      },
+      {
+         "person":{
+            "name":"Seka Aleksic",
+            "phone":"091131235",
+            "email":"seka@infinum.hr",
+            "image":"image2.jpeg",
+            "note":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id orci in justo consectetur hendrerit. Morbi vitae justo quam. Curabitur egestas, ante in condimentum dictum, lacus massa consequat eros, dapibus mollis nulla velit at tortor. Vivamus tempus varius ipsum. Quisque placerat massa a massa euismod bibendum. Sed ac tellus massa.",
+            "facebook_profile":"https://www.facebook.com/pages/Seka-Aleksic/53314540667"
+         }
+      },
+      {
+         "person":{
+            "name":"Ana Baotic",
+            "phone":"092123123",
+            "email":"ana.baotic@infinum.hr",
+            "image":"image3.jpeg",
+            "note":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id orci in justo consectetur hendrerit. Morbi vitae justo quam. Curabitur egestas, ante in condimentum dictum, lacus massa consequat eros, dapibus mollis nulla velit at tortor. Vivamus tempus varius ipsum. Quisque placerat massa a massa euismod bibendum. Sed ac tellus massa.",
+            "facebook_profile":"https://www.facebook.com/anabaotic"
+         }
+      }
+   ]
+}
